@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Performance Metric",
+  "type": "object",
+  "required": ["agents"],
+  "properties": {
+    "agents": {
+      "type": "object",
+      "description": "Per-agent performance records written by the metrics-tracker plugin."
+    }
+  },
+  "additionalProperties": false
+}

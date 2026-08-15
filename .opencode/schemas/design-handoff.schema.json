@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design to Build Handoff",
+  "description": "Formal handoff record from design workflow (D1-D5) to build workflow (Phase 1-5). Written after ALL design slices are verified.",
+  "type": "object",
+  "required": ["event", "ticket_id", "jira_key", "slices_completed", "tokens_path", "components_path", "verification_scores", "design_decisions", "figma_file_key", "timestamp"],
+  "properties": {
+    "event": {
+      "type": "string",
+      "pattern": "^design_handoff$",
+      "description": "Must be 'design_handoff'"
+    },
+    "ticket_id": {
+      "type": "string",
+      "description": "Design ticket ID"
+    },
+    "jira_key": {
+      "type": "string",
+      "description": "Jira key for the implementation ticket"
+    },
+    "slices_completed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "verification_score", "files"],
+        "properties": {
+          "name": { "type": "string" },
+          "verification_score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "files": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "tokens_path": {
+      "type": "string",
+      "description": "Path to design/{ticket-id}/tokens.json"
+    },
+    "components_path": {
+      "type": "string",
+      "description": "Path to design/{ticket-id}/components/"
+    },
+    "verification_scores": {
+      "type": "object",
+      "description": "Per-slice verification scores",
+      "additionalProperties": { "type": "number" }
+    },
+    "design_decisions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key design decisions made during design phase"
+    },
+    "figma_file_key": {
+      "type": "string",
+      "description": "Figma file key for the design"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional build entry notes"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

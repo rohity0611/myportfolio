@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Confidence Metric",
+  "type": "object",
+  "required": [
+    "jira_key",
+    "task_group",
+    "timestamp",
+    "dimensions",
+    "overall",
+    "rationale",
+    "discovery_health_score"
+  ],
+  "properties": {
+    "jira_key": { "type": "string", "minLength": 1 },
+    "task_group": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "dimensions": {
+      "type": "object",
+      "required": ["clarity", "precedent", "complexity", "risk", "dependency"],
+      "properties": {
+        "clarity": { "type": "string", "enum": ["green", "amber", "red"] },
+        "precedent": { "type": "string", "enum": ["green", "amber", "red"] },
+        "complexity": { "type": "string", "enum": ["green", "amber", "red"] },
+        "risk": { "type": "string", "enum": ["green", "amber", "red"] },
+        "dependency": { "type": "string", "enum": ["green", "amber", "red"] }
+      },
+      "additionalProperties": false
+    },
+    "overall": { "type": "string", "enum": ["green", "amber", "red"] },
+    "rationale": { "type": "string", "minLength": 1 },
+    "discovery_health_score": { "type": ["number", "null"] }
+  },
+  "additionalProperties": false
+}

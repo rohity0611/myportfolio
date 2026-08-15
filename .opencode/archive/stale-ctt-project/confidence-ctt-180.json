@@ -1,0 +1,19 @@
+{
+  "ticket_id": "CTT-180",
+  "overall": 0.82,
+  "factors": {
+    "code_quality": 0.9,
+    "test_coverage": 0.75,
+    "security": 0.85,
+    "documentation": 0.8
+  },
+  "phase_confidence": {
+    "brief": 0.95,
+    "slice": 0.9,
+    "plan-slice": 0.88,
+    "build": 0.82,
+    "harden": null,
+    "ship": null
+  },
+  "updated_at": "2026-07-22T14:30:00Z"
+}

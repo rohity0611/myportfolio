@@ -1,0 +1,166 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".opencode/README.md",
+    ".opencode/rules/architecture-standards.md",
+    ".opencode/rules/design-patterns.md",
+    ".opencode/rules/build-methodology.md",
+    ".opencode/rules/context-continuity.md",
+    ".opencode/rules/agentic-safety.md",
+    ".opencode/rules/senior-engineering-standards.md",
+    ".opencode/rules/memory.md",
+    ".opencode/rules/handoff-contracts.md",
+    ".opencode/rules/error-recovery.md",
+    ".opencode/rules/output-validation.md",
+    ".opencode/rules/trace-capture.md",
+    ".opencode/rules/context-budget.md",
+    ".opencode/rules/parallel-tracking.md",
+    ".opencode/rules/context-checkpoint.md",
+    ".opencode/rules/shared-state.md",
+    ".opencode/rules/agent-conversation.md"
+  ],
+  "skills": {
+    "paths": [".opencode/skills"]
+  },
+  "agent": {
+    "build": { "temperature": 0.3 },
+    "plan": { "temperature": 0.1 },
+    "explore": { "temperature": 0.2 },
+    "general": { "temperature": 0.4 },
+    "scout": { "temperature": 0.2,"hidden": true }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "git commit*": "ask",
+      "git push*": "ask",
+      "git pull*": "ask",
+      "git merge*": "ask",
+      "git rebase*": "ask",
+      "git reset*": "ask",
+      "git clean*": "ask",
+      "git checkout *": "ask",
+      "git switch *": "ask",
+      "rm *": "ask",
+      "rmdir *": "ask",
+      "del *": "ask",
+      "Remove-Item *": "ask",
+      "docker system prune*": "ask",
+      "kubectl delete *": "ask",
+      "vercel --prod*": "ask",
+      "npm publish*": "ask",
+      "pnpm publish*": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "ask",
+      "*.env.*": "ask",
+      "*.env.example": "allow",
+      "*/node_modules/**": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "ask",
+      "*.env.*": "ask",
+      "*.env.example": "allow",
+      "*/node_modules/**": "deny"
+    },
+    "list": {
+      "*": "allow",
+      "*.env.example": "allow",
+      "*/node_modules/**": "deny"
+    },
+    "glob": {
+      "*": "allow",
+      "*.env.example": "allow",
+      "*/node_modules/**": "deny"
+    },
+    "skill": "allow",
+    "write": "allow",
+    "task": "allow",
+    "question": "allow",
+    "webfetch": "allow",
+    "websearch": "allow"
+  },
+  "snapshot": true,
+  "default_agent": "build",
+  "compaction": {
+    "auto": true,
+    "tail_turns": 15,
+    "prune": true
+  },
+  "lsp": true,
+  "formatter": true,
+  "plugin": [
+    ".opencode/extensions/graphify.js",
+    "@ephemushroom/opencode-claude-mem",
+    ".opencode/plugins/tracing.ts",
+    ".opencode/plugins/error-recovery.ts",
+    ".opencode/plugins/shared-state.ts",
+    ".opencode/plugins/metrics-tracker.ts",
+    ".opencode/plugins/agent-conversation.ts"
+  ],
+  "subagent_depth": 2,
+  "mcp": {
+    "codegraph": {
+      "type": "local",
+      "command": [".opencode/scripts/codegraph-mcp.cmd"],
+      "enabled": true
+    },
+    "imugi": {
+      "type": "local",
+      "command": ["npx", "-y", "imugi-ai", "mcp"],
+      "environment": {
+        "FIGMA_TOKEN": "{env:FIGMA_TOKEN}"
+      },
+      "timeout": 60000,
+      "enabled": true
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "timeout": 30000,
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp@2.1.7"],
+      "environment": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "timeout": 30000,
+      "enabled": true
+    },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp",
+      "timeout": 30000,
+      "enabled": true,
+      "oauth": {}
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "timeout": 30000,
+      "enabled": true
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "timeout": 30000,
+      "enabled": true
+    },
+    "deepwiki": {
+      "type": "remote",
+      "url": "https://mcp.deepwiki.com/mcp",
+      "timeout": 30000,
+      "enabled": true
+    },
+    "semgrep": {
+      "type": "local",
+      "command": ["semgrep", "mcp"],
+      "timeout": 30000,
+      "enabled": false
+    }
+  }
+}

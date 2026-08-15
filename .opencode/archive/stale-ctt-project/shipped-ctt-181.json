@@ -1,0 +1,32 @@
+{
+  "issue_key": "CTT-181",
+  "title": "Observability System Integration",
+  "status": "shipped",
+  "shipped_at": "2026-07-22T16:00:00Z",
+  "phase": "shipped",
+  "phases_completed": ["plan-brief", "slice", "plan-slice", "build", "harden"],
+  "metrics": {
+    "build_duration": 4200,
+    "lines_added": 1850,
+    "lines_removed": 1400,
+    "confidence_avg": 0.87,
+    "recovery_count": 2,
+    "verifier_pass_rate": 0.92
+  },
+  "slices": [
+    { "id": "CTT-181-s1", "title": "Tracing Plugin", "status": "shipped", "duration": 2800 },
+    { "id": "CTT-181-s2", "title": "Metrics Tracker Plugin", "status": "shipped", "duration": 2600 },
+    { "id": "CTT-181-s3", "title": "Error Recovery Plugin", "status": "shipped", "duration": 3000 },
+    { "id": "CTT-181-s4", "title": "Agent Performance Dashboard", "status": "shipped", "duration": 2200 }
+  ],
+  "verifier": {
+    "total_issues_found": 3,
+    "critical_issues": 0,
+    "resolved_issues": 3,
+    "pass_rate": 1.0
+  },
+  "recovery_log": [
+    { "phase": "build", "trigger": "timeout", "action": "retry", "success": true },
+    { "phase": "harden", "trigger": "linter_error", "action": "fix_and_proceed", "success": true }
+  ]
+}

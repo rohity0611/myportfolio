@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase State Metric",
+  "type": "object",
+  "required": [
+    "jira_key",
+    "current_phase",
+    "start_position",
+    "current_position",
+    "next_required_action",
+    "approved_artifacts",
+    "last_completed_step",
+    "blockers",
+    "phase_history"
+  ],
+  "properties": {
+    "jira_key": { "type": "string", "minLength": 1 },
+    "current_phase": { "type": "string", "minLength": 1 },
+    "start_position": { "type": "string", "minLength": 1 },
+    "current_position": { "type": "string", "minLength": 1 },
+    "next_required_action": { "type": "string", "minLength": 1 },
+    "approved_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "last_completed_step": { "type": "string", "minLength": 1 },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "phase_history": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase", "status", "timestamp"],
+        "properties": {
+          "phase": { "type": "string", "minLength": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "complete", "blocked", "skipped"]
+          },
+          "timestamp": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "slices": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "current_slice": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

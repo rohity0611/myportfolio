@@ -1,0 +1,54 @@
+{
+  "agents": {
+    "backend-engineer": {
+      "totalTasks": 5,
+      "successCount": 4,
+      "failureCount": 1,
+      "avgDurationMs": 38000,
+      "lastUsed": "2026-07-23T10:00:00Z"
+    },
+    "security-reviewer": {
+      "totalTasks": 3,
+      "successCount": 3,
+      "failureCount": 0,
+      "avgDurationMs": 15000,
+      "lastUsed": "2026-07-23T11:00:00Z"
+    },
+    "test-writer": {
+      "totalTasks": 4,
+      "successCount": 4,
+      "failureCount": 0,
+      "avgDurationMs": 22000,
+      "lastUsed": "2026-07-22T16:00:00Z"
+    },
+    "documentation-agent": {
+      "totalTasks": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "avgDurationMs": 18000,
+      "lastUsed": "2026-07-21T14:00:00Z"
+    },
+    "explore": {
+      "totalTasks": 8,
+      "successCount": 7,
+      "failureCount": 1,
+      "avgDurationMs": 12000,
+      "lastUsed": "2026-07-23T09:00:00Z"
+    },
+    "orchestrator": {
+      "totalTasks": 10,
+      "successCount": 10,
+      "failureCount": 0,
+      "avgDurationMs": 5000,
+      "lastUsed": "2026-07-23T11:00:00Z"
+    },
+    "current-session": {
+      "totalTasks": 336,
+      "successCount": 336,
+      "failureCount": 0,
+      "avgDuration": 0,
+      "commonFailures": [],
+      "lastUsed": "2026-08-15T15:48:06.760Z"
+    }
+  }
+}

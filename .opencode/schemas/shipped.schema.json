@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shipped Metric",
+  "type": "object",
+  "required": [
+    "event",
+    "jira_key",
+    "slice",
+    "pr_number",
+    "files_changed",
+    "tests_added",
+    "coverage_percent",
+    "hardening_agents_complete",
+    "timestamp"
+  ],
+  "properties": {
+    "event": { "type": "string", "enum": ["shipped"] },
+    "jira_key": { "type": "string", "minLength": 1 },
+    "slice": { "type": "string", "minLength": 1 },
+    "branch": { "type": "string", "minLength": 1 },
+    "pr_number": { "type": ["string", "integer"], "minLength": 1 },
+    "files_changed": { "type": "integer", "minimum": 0 },
+    "tests_added": { "type": "integer", "minimum": 0 },
+    "coverage_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+    "hardening_agents_complete": { "type": "integer", "minimum": 0, "maximum": 8 },
+    "timestamp": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

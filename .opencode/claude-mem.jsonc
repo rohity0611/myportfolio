@@ -1,0 +1,6 @@
+{
+  "enabled": true,
+  "workerPort": 37801,
+  "autoInjectContext": true,
+  "maxContextMemories": 10
+}

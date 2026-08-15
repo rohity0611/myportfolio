@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Context State",
+  "description": "Tracks the health and status of the context library tools (Graphify, CodeGraph, gh_grep).",
+  "type": "object",
+  "required": ["version", "last_refresh", "graphify", "codegraph", "mcp", "warnings", "next_required_action"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+    "last_refresh": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of last context refresh"
+    },
+    "graphify": {
+      "type": "object",
+      "description": "Graphify tool status",
+      "properties": {
+        "available": { "type": "boolean" },
+        "report_path": { "type": ["string", "null"] },
+        "last_updated": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "required": ["available", "report_path"]
+    },
+    "codegraph": {
+      "type": "object",
+      "description": "CodeGraph tool status",
+      "properties": {
+        "available": { "type": "boolean" },
+        "mcp_configured": { "type": "boolean" },
+        "last_indexed": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "required": ["available", "mcp_configured"]
+    },
+    "mcp": {
+      "type": "object",
+      "description": "MCP server configuration status",
+      "properties": {
+        "configured": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of configured MCP server names"
+        }
+      },
+      "required": ["configured"]
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of warning messages"
+    },
+    "next_required_action": {
+      "type": "string",
+      "description": "Next action required by the user or agent"
+    }
+  }
+}

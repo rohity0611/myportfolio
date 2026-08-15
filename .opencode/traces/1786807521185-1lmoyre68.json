@@ -1,0 +1,175 @@
+{
+  "traceId": "1786807521185-1lmoyre68",
+  "rootSpanId": "1786807521185-sytmywpa1",
+  "spans": [
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807521185-55u2oarn6",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:25:21.185Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Test-Path -Path \".opencode\\bin\\cloudflared\" -PathType Container"
+      },
+      "endTime": "2026-08-15T15:25:23.985Z",
+      "duration": 2800
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807534102-1lwv43nxg",
+      "parentSpanId": "1786807521185-55u2oarn6",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:25:34.102Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Get-ChildItem -Path \".opencode\\bin\\\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName, Length"
+      },
+      "endTime": "2026-08-15T15:25:36.719Z",
+      "duration": 2617
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807556128-y7b9ma4h8",
+      "parentSpanId": "1786807534102-1lwv43nxg",
+      "operation": "tool.read",
+      "startTime": "2026-08-15T15:25:56.128Z",
+      "status": "success",
+      "tool": "read",
+      "args": {
+        "filePath": "D:\\myportfolio\\.opencode"
+      },
+      "endTime": "2026-08-15T15:25:56.148Z",
+      "duration": 20
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807580821-wja60fdb0",
+      "parentSpanId": "1786807556128-y7b9ma4h8",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:26:20.821Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Get-Command cloudflared -ErrorAction SilentlyContinue"
+      },
+      "endTime": "2026-08-15T15:26:22.932Z",
+      "duration": 2111
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807599464-7j9tdqpj6",
+      "parentSpanId": "1786807580821-wja60fdb0",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:26:39.464Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Invoke-WebRequest -Uri \"https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe\" -OutFile \"C:\\Windows\\System32\\cloudflared.exe\" -UseBasicParsing"
+      },
+      "endTime": "2026-08-15T15:26:43.844Z",
+      "duration": 4380
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807650083-by8ral1ai",
+      "parentSpanId": "1786807599464-7j9tdqpj6",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:27:30.083Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "New-Item -ItemType Directory -Path \"$env:USERPROFILE\\.cloudflared\" -Force"
+      },
+      "endTime": "2026-08-15T15:30:15.096Z",
+      "duration": 165013
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807836925-zqtdv5m01",
+      "parentSpanId": "1786807650083-by8ral1ai",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:30:36.925Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Invoke-WebRequest -Uri \"https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe\" -OutFile \"$env:USERPROFILE\\.cloudflared\\cloudflared.exe\" -UseBasicParsing"
+      },
+      "endTime": "2026-08-15T15:32:29.566Z",
+      "duration": 112641
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807962432-vnuli11bf",
+      "parentSpanId": "1786807836925-zqtdv5m01",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:32:42.432Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "$currentPath = [Environment]::GetEnvironmentVariable(\"Path\", \"User\"); $cloudflaredPath = \"$env:USERPROFILE\\.cloudflared\"; if ($currentPath -notlike \"*$cloudflaredPath*\") { [Environment]::SetEnvironmentVariable(\"Path\", \"$currentPath;$cloudflaredPath\", \"User\"); Write-Host \"Added $cloudflaredPath to user PATH\" } else { Write-Host \"$cloudflaredPath is already in PATH\" }"
+      },
+      "endTime": "2026-08-15T15:32:45.094Z",
+      "duration": 2662
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807973159-x55xeyv4f",
+      "parentSpanId": "1786807962432-vnuli11bf",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:32:53.159Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "$env:Path = [Environment]::GetEnvironmentVariable(\"Path\", \"User\") + \";\" + [Environment]::GetEnvironmentVariable(\"Path\", \"Machine\"); & \"$env:USERPROFILE\\.cloudflared\\cloudflared.exe\" --version"
+      },
+      "endTime": "2026-08-15T15:32:55.339Z",
+      "duration": 2180
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786807993449-cacepe3s3",
+      "parentSpanId": "1786807973159-x55xeyv4f",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:33:13.449Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "Test-Path -Path \"$env:USERPROFILE\\.cloudflared\\cloudflared.exe\" -PathType Leaf"
+      },
+      "endTime": "2026-08-15T15:33:15.851Z",
+      "duration": 2402
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786808228477-vylepgznk",
+      "parentSpanId": "1786807993449-cacepe3s3",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:37:08.477Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "cloudflared --version"
+      },
+      "endTime": "2026-08-15T15:37:10.921Z",
+      "duration": 2444
+    },
+    {
+      "traceId": "1786807521185-1lmoyre68",
+      "spanId": "1786808248929-1eqen4xw5",
+      "parentSpanId": "1786808228477-vylepgznk",
+      "operation": "tool.bash",
+      "startTime": "2026-08-15T15:37:28.929Z",
+      "status": "success",
+      "tool": "bash",
+      "args": {
+        "command": "$env:Path = [Environment]::GetEnvironmentVariable(\"Path\", \"User\") + \";\" + [Environment]::GetEnvironmentVariable(\"Path\", \"Machine\"); cloudflared --version"
+      },
+      "endTime": "2026-08-15T15:37:31.168Z",
+      "duration": 2239
+    }
+  ],
+  "duration": 729983,
+  "status": "success"
+}

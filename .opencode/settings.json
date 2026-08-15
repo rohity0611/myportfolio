@@ -1,0 +1,7 @@
+{
+  "compatibility": {
+    "source": ".claude/settings.json",
+    "opencode_config": ".opencode/opencode.json",
+    "note": "OpenCode uses opencode.json, agents, commands, skills, and instructions. This file is retained as a migration note for teams comparing the original settings file."
+  }
+}

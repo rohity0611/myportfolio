@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hardening Swarm Metric",
+  "type": "object",
+  "required": [
+    "event",
+    "jira_key",
+    "agents",
+    "data_integration_step1_approved",
+    "reconciliation_conflicts",
+    "timestamp"
+  ],
+  "properties": {
+    "event": { "type": "string", "enum": ["swarm_completion"] },
+    "jira_key": { "type": "string", "minLength": 1 },
+    "agents": {
+      "type": "object",
+      "required": [
+        "security",
+        "test",
+        "resilience",
+        "observability",
+        "accessibility",
+        "code_standards",
+        "documentation",
+        "data_integration"
+      ],
+      "properties": {
+        "security": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "test": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "resilience": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "observability": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "accessibility": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "code_standards": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "documentation": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+        "data_integration": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] }
+      },
+      "additionalProperties": false
+    },
+    "data_integration_step1_approved": { "type": "boolean" },
+    "reconciliation_conflicts": { "type": "integer", "minimum": 0 },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "notes": { "type": ["string", "object"] },
+    "reconciliation_notes": { "type": "string", "minLength": 1 },
+    "findings": { "type": "object" }
+  },
+  "additionalProperties": false
+}

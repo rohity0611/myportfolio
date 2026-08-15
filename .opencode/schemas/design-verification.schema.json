@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Verification Outcome",
+  "description": "Outcome of visual verification for a design-build slice (Phase D5)",
+  "type": "object",
+  "properties": {
+    "event": { "type": "string", "const": "design_verification_outcome" },
+    "ticket_id": { "type": "string" },
+    "slice": { "type": "string" },
+    "method": { "type": "string", "enum": ["imugi", "playwright"] },
+    "final_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "iterations": { "type": "integer", "minimum": 0 },
+    "outcome": { "type": "string", "enum": ["pass", "fail"] },
+    "threshold": { "type": "number", "minimum": 0, "maximum": 100 },
+    "figma_node_id": { "type": "string" },
+    "timestamp": { "type": "string" }
+  },
+  "required": [
+    "event", "ticket_id", "slice", "method", "final_score",
+    "iterations", "outcome", "threshold", "figma_node_id", "timestamp"
+  ]
+}

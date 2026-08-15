@@ -1,0 +1,7 @@
+{
+  "ticket_id": "CTT-180",
+  "slice": "auth-flow",
+  "shipped_at": "2026-07-22T12:00:00Z",
+  "pr_url": "https://github.com/example/repo/pull/42",
+  "commit_sha": "abc1234"
+}

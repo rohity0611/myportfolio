@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 16L14 22L24 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">FACTORY</span>
+            </div>
+            
+            <nav class="nav">
+                <div class="nav-item active" data-section="overview">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span>Overview</span>
+                </div>
+                <div class="nav-item" data-section="phases">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>Phases</span>
+                </div>
+                <div class="nav-item" data-section="commands">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 17 10 11 4 5"/>
+                        <line x1="12" y1="19" x2="20" y2="19"/>
+                    </svg>
+                    <span>Commands</span>
+                </div>
+                <div class="nav-item" data-section="agents">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span>Agents</span>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div id="refresh-indicator" class="refresh-on">Auto-refresh: ON</div>
+                <button id="refresh-btn" class="refresh-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                    Refresh
+                </button>
+            </div>
+        </aside>
+        
+        <main class="main">
+            <header class="header">
+                <div class="header-left">
+                    <h1 id="project-name">Loading...</h1>
+                    <p id="project-description" class="subtitle"></p>
+                </div>
+                <div class="header-right">
+                    <div class="tech-stack" id="tech-stack"></div>
+                    <div class="timestamp">
+                        <span class="timestamp-label">Last sync</span>
+                        <span id="last-updated" class="timestamp-value">-</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="content">
+                <section class="section" id="section-overview" data-nav="overview">
+                    <div class="section-header">
+                        <h2>Build Factory</h2>
+                        <span class="badge" id="status-badge">Active</span>
+                    </div>
+                    <div class="phase-grid" id="build-phase-grid"></div>
+                    
+                    <div class="section-header" style="margin-top: 24px;">
+                        <h2>Design Factory</h2>
+                        <span class="badge badge-dim">Figma → Code</span>
+                    </div>
+                    <div class="phase-grid" id="design-phase-grid"></div>
+                    
+                    <div class="stats-row" style="margin-top: 24px;">
+                        <div class="stat-card">
+                            <span class="stat-value" id="stat-slices">0</span>
+                            <span class="stat-label">Total Slices</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="stat-complete">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="stat-progress">0%</span>
+                            <span class="stat-label">Progress</span>
+                        </div>
+                        <div class="stat-card accent">
+                            <span class="stat-value" id="stat-blockers">0</span>
+                            <span class="stat-label">Blockers</span>
+                        </div>
+                    </div>
+                    
+                    <div class="slices-preview" style="margin-top: 24px;">
+                        <h3 style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">Slices</h3>
+                        <div class="slices-list" id="slices-list"></div>
+                    </div>
+                </section>
+                
+                <section class="section hidden" id="section-phases" data-nav="phases">
+                    <div class="section-header">
+                        <h2>Build Factory Timeline</h2>
+                    </div>
+                    <div class="phase-timeline" id="build-phase-timeline"></div>
+                    <div class="phase-detail-grid" id="build-phase-detail-grid"></div>
+                    
+                    <div class="section-header" style="margin-top: 32px;">
+                        <h2>Design Factory Timeline</h2>
+                    </div>
+                    <div class="phase-timeline" id="design-phase-timeline"></div>
+                    <div class="phase-detail-grid" id="design-phase-detail-grid"></div>
+                </section>
+                
+                <section class="section hidden" id="section-commands" data-nav="commands">
+                    <div class="section-header">
+                        <h2>All Commands (21)</h2>
+                    </div>
+                    <div id="commands-container"></div>
+                </section>
+                
+                <section class="section hidden" id="section-agents" data-nav="agents">
+                    <div class="section-header">
+                        <h2>All Agents</h2>
+                    </div>
+                    <div class="agents-full-grid" id="agents-full-grid"></div>
+                    
+                    <div class="section-header" style="margin-top: 32px;">
+                        <h2>Agent Registry</h2>
+                    </div>
+                    <div class="registry-list" id="registry-list"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <script src="data-loader.js?v=3"></script>
+    <script src="app.js?v=3"></script>
+</body>
+</html>

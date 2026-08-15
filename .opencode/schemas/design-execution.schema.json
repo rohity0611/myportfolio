@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Execution Outcome",
+  "description": "Outcome of a single design-build slice execution (Phase D4)",
+  "type": "object",
+  "properties": {
+    "event": { "type": "string", "const": "design_execution_outcome" },
+    "ticket_id": { "type": "string" },
+    "slice": { "type": "string" },
+    "outcome": { "type": "string", "enum": ["success", "partial", "failure"] },
+    "files_created": { "type": "array", "items": { "type": "string" } },
+    "tokens_applied": { "type": "array", "items": { "type": "string" } },
+    "figma_node_id": { "type": "string" },
+    "timestamp": { "type": "string" }
+  },
+  "required": [
+    "event", "ticket_id", "slice", "outcome",
+    "files_created", "tokens_applied", "figma_node_id", "timestamp"
+  ]
+}

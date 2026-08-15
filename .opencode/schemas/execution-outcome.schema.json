@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Execution Outcome Metric",
+  "type": "object",
+  "required": [
+    "event",
+    "jira_key",
+    "slice",
+    "confidence_rating",
+    "outcome",
+    "one_shot",
+    "replan_count",
+    "architecture_review",
+    "data_reality_coverage",
+    "timestamp"
+  ],
+  "properties": {
+    "event": { "type": "string", "enum": ["execution_outcome"] },
+    "jira_key": { "type": "string", "minLength": 1 },
+    "slice": { "type": "string", "minLength": 1 },
+    "confidence_rating": { "type": "string", "enum": ["green", "amber", "red"] },
+    "outcome": { "type": "string", "enum": ["success", "partial", "failure"] },
+    "one_shot": { "type": "boolean" },
+    "replan_count": { "type": "integer", "minimum": 0 },
+    "architecture_review": {
+      "type": ["string", "null"],
+      "enum": ["pass", "refactor_needed", "refactor_completed", "blocked", null]
+    },
+    "data_reality_coverage": { "type": ["number", "null"] },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "notes": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

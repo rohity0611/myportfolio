@@ -1,0 +1,8 @@
+{
+  "ticket_id": "CTT-181",
+  "active_agents": ["security-reviewer"],
+  "completed_agents": ["backend-engineer", "explore"],
+  "total_tasks": 2,
+  "completed_tasks": 1,
+  "updated_at": "2026-07-23T11:00:00Z"
+}
