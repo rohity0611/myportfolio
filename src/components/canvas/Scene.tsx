@@ -6,6 +6,7 @@ import { Suspense, useState, useEffect } from "react";
 import Environment from "./Environment";
 import Particles from "./Particles";
 import NeuralCore from "./NeuralCore";
+import { useTheme } from "@/hooks/useTheme";
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
@@ -20,6 +21,13 @@ function useIsMobile() {
 
 export default function Scene() {
   const isMobile = useIsMobile();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const fogColor = isDark ? "#05070A" : "#f0f4f8";
+  const ambientIntensity = isDark ? 0.15 : 0.4;
+  const pointIntensity = isDark ? 0.4 : 0.25;
+  const dirIntensity = isDark ? 0.3 : 0.5;
 
   return (
     <div className="canvas-container">
@@ -34,14 +42,18 @@ export default function Scene() {
         style={{ background: "transparent" }}
       >
         <Suspense fallback={null}>
-          <fog attach="fog" args={["#05070A", 3, 15]} />
-          <ambientLight intensity={0.15} />
-          <pointLight position={[5, 5, 5]} intensity={0.4} color="#38BDF8" />
-          <pointLight position={[-5, -3, 3]} intensity={0.2} color="#818CF8" />
-          <directionalLight position={[0, 5, 0]} intensity={0.3} />
-          <Environment />
+          <fog attach="fog" args={[fogColor, 3, 15]} />
+          <ambientLight intensity={ambientIntensity} />
+          <pointLight
+            position={[5, 5, 5]}
+            intensity={pointIntensity}
+            color={isDark ? "#38BDF8" : "#0284c7"}
+          />
+          <pointLight position={[-5, -3, 3]} intensity={isDark ? 0.2 : 0.15} color="#818CF8" />
+          <directionalLight position={[0, 5, 0]} intensity={dirIntensity} />
+          <Environment isDark={isDark} />
           <Particles count={isMobile ? 200 : 800} />
-          <NeuralCore />
+          <NeuralCore isDark={isDark} />
           <Preload all />
         </Suspense>
       </Canvas>

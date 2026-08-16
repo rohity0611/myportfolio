@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ClientProviders from "@/components/layout/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,14 +64,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                document.documentElement.style.background = '#05070A';
-                document.documentElement.style.color = '#F5F7FA';
+                var t = localStorage.getItem('ryos-theme');
+                var light = t === 'light' || (!t && window.matchMedia('(prefers-color-scheme: light)').matches);
+                if (light) document.documentElement.classList.add('light');
+                document.documentElement.style.background = light ? '#f0f4f8' : '#05070A';
+                document.documentElement.style.color = light ? '#0b1220' : '#F5F7FA';
               })();
             `,
           }}
         />
       </head>
-      <body style={{ background: "#05070A" }}>{children}</body>
+      <body>
+        <ClientProviders>{children}</ClientProviders>
+      </body>
     </html>
   );
 }

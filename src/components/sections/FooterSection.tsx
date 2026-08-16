@@ -1,37 +1,59 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useCursor } from "@/hooks/useCursorContext";
+
+const links = [
+  { label: "GitHub", href: "https://github.com/rohity0611" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/rohit-yadav-6560a117/" },
+  { label: "Email", href: "mailto:yadavrohit0660@gmail.com" },
+];
 
 export default function FooterSection() {
-  return (
-    <section className="relative py-24 md:py-32 px-6">
-      <div className="relative z-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        >
-          <h2 className="text-5xl sm:text-7xl font-bold tracking-tighter mb-4">
-            <span className="text-[#F5F7FA]">ROHIT</span>{" "}
-            <span className="gradient-text">YADAV</span>
-          </h2>
+  const { setCursor } = useCursor();
 
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <span className="font-mono text-xs tracking-[0.15em] text-[#8B95A5] uppercase">
-              QA Engineer
+  return (
+    <footer className="relative py-16 md:py-20 mt-16 border-t border-[var(--border)]">
+      <div className="page-container">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--fg-secondary)]">
+              QA ENGINEER
             </span>
           </div>
 
-          <p className="font-mono text-sm tracking-[0.2em] text-[#8B95A5] mb-12">
-            BUILD. TEST. AUTOMATE.
-          </p>
-
-          <div className="font-mono text-[9px] tracking-[0.15em] text-[rgba(139,149,165,0.4)]">
-            © {new Date().getFullYear()} Rohit Yadav
+          <div className="flex items-center gap-6">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                className="font-mono text-[11px] tracking-[0.1em] text-[var(--fg-secondary)] hover:text-[var(--accent)] transition-colors cursor-none whitespace-nowrap"
+                onMouseEnter={() => setCursor("hover", link.label.toUpperCase())}
+                onMouseLeave={() => setCursor("default")}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="/certificates/Rohit-Yadav-CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[11px] tracking-[0.1em] text-[var(--accent)] hover:opacity-80 transition-opacity cursor-none whitespace-nowrap"
+              onMouseEnter={() => setCursor("hover", "RESUME")}
+              onMouseLeave={() => setCursor("default")}
+            >
+              Resume
+            </a>
           </div>
-        </motion.div>
+
+          <div className="text-center md:text-right">
+            <span className="font-mono text-[10px] tracking-[0.15em] text-[var(--fg-secondary)] opacity-50">
+              &copy; {new Date().getFullYear()} RY/OS
+            </span>
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   );
 }

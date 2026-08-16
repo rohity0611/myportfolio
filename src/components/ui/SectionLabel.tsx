@@ -17,8 +17,8 @@ export default function SectionLabel({ label, number, className = "" }: SectionL
       transition={{ duration: 0.6 }}
       className={`flex items-center gap-2 mb-4 ${className}`}
     >
-      <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
-      <span className="font-mono text-[10px] tracking-[0.2em] text-[#8B95A5]">
+      <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+      <span className="font-mono text-[10px] tracking-[0.2em] text-[var(--fg-secondary)]">
         {label ? `${label} / ${number}` : number}
       </span>
     </motion.div>

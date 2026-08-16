@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMouse } from "@/hooks/useMouse";
 import { useCursor } from "@/hooks/useCursorContext";
 
@@ -10,6 +10,10 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice] = useState(
+    () =>
+      typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0),
+  );
 
   const sizeMap: Record<string, { dot: number; ring: number }> = {
     default: { dot: 6, ring: 32 },
@@ -23,7 +27,7 @@ export default function CustomCursor() {
   const size = sizeMap[variant] || sizeMap.default;
 
   useEffect(() => {
-    if (!dotRef.current || !ringRef.current) return;
+    if (isTouchDevice || !dotRef.current || !ringRef.current) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
@@ -35,11 +39,12 @@ export default function CustomCursor() {
     if (lbl) {
       lbl.style.transform = `translate(${smoothPosition.x}px, ${smoothPosition.y + 24}px)`;
     }
-  }, [smoothPosition, velocity, isMoving, size]);
+  }, [smoothPosition, velocity, isMoving, size, isTouchDevice]);
+
+  if (isTouchDevice) return null;
 
   return (
     <>
-      {/* Dot */}
       <div
         ref={dotRef}
         className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
@@ -47,13 +52,12 @@ export default function CustomCursor() {
           width: size.dot,
           height: size.dot,
           borderRadius: "50%",
-          background: variant === "default" ? "#38BDF8" : "#fff",
+          background: variant === "default" ? "var(--accent)" : "#fff",
           transition: "width 0.3s, height 0.3s, background 0.3s",
           willChange: "transform",
         }}
       />
 
-      {/* Ring */}
       <div
         ref={ringRef}
         className="fixed top-0 left-0 pointer-events-none z-[9998]"
@@ -61,14 +65,13 @@ export default function CustomCursor() {
           width: size.ring,
           height: size.ring,
           borderRadius: "50%",
-          border: `1px solid ${variant === "default" ? "rgba(56, 189, 248, 0.3)" : "rgba(255, 255, 255, 0.4)"}`,
+          border: `1px solid ${variant === "default" ? "rgba(var(--accent-rgb), 0.3)" : "rgba(255, 255, 255, 0.4)"}`,
           transition:
             "width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), border 0.3s",
           willChange: "transform",
         }}
       />
 
-      {/* Label */}
       {label && (
         <div
           ref={labelRef}
@@ -82,8 +85,8 @@ export default function CustomCursor() {
           <span
             className="font-mono text-[10px] tracking-[0.2em] uppercase whitespace-nowrap"
             style={{
-              color: "#F5F7FA",
-              textShadow: "0 0 10px rgba(56, 189, 248, 0.5)",
+              color: "var(--fg-primary)",
+              textShadow: "0 0 10px rgba(var(--accent-rgb), 0.5)",
             }}
           >
             {label}

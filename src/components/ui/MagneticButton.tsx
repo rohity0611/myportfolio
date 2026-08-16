@@ -39,9 +39,9 @@ export default function MagneticButton({
 
   const variants = {
     primary:
-      "border border-[rgba(56,189,248,0.3)] bg-[rgba(56,189,248,0.05)] text-[#38BDF8] hover:border-[rgba(56,189,248,0.6)] hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]",
+      "border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)] hover:border-[rgba(var(--accent-rgb),0.6)] hover:shadow-[0_0_30px_rgba(var(--accent-rgb),0.15)]",
     secondary:
-      "border border-[rgba(255,255,255,0.1)] bg-transparent text-[#8B95A5] hover:border-[rgba(255,255,255,0.2)] hover:text-[#F5F7FA]",
+      "border border-[rgba(var(--fg-primary-rgb),0.1)] bg-transparent text-[var(--fg-secondary)] hover:border-[rgba(var(--fg-primary-rgb),0.2)] hover:text-[var(--fg-primary)]",
   };
 
   const Tag = href ? "a" : "button";
@@ -58,8 +58,7 @@ export default function MagneticButton({
         onMouseLeave={() => setCursor("default")}
         {...(href ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
-        {/* Hover glow */}
-        <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_var(--mx)_var(--my),rgba(56,189,248,0.15),transparent_60%)] opacity-0 hover:opacity-100 transition-opacity duration-400" />
+        <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_var(--mx)_var(--my),rgba(var(--accent-rgb),0.15),transparent_60%)] opacity-0 hover:opacity-100 transition-opacity duration-400" />
         <span className="relative z-10">{children}</span>
       </Tag>
     </motion.div>

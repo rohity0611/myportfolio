@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import SectionLabel from "@/components/ui/SectionLabel";
 import { useCursor } from "@/hooks/useCursorContext";
 import { profile } from "@/data/profile";
 
@@ -14,24 +13,24 @@ const techNodes = [
   { name: "MYSQL", angle: 300, radius: 175, desc: "Database Management" },
 ];
 
-export default function AboutSection() {
+export default function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { setCursor } = useCursor();
 
   return (
-    <section id="about" className="relative py-24 md:py-32 px-6">
-      {/* Ambient */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(56, 189, 248, 0.04) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+      {!isStandalone && (
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(var(--accent-rgb), 0.04) 0%, transparent 70%)",
+            }}
+          />
+        </div>
+      )}
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full">
-        <SectionLabel label="ABOUT" number="02" />
-
+      <div className={isStandalone ? "" : "relative z-10 content-wrap w-full"}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Identity */}
           <motion.div
@@ -40,46 +39,44 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            {/* Glass portrait frame */}
+            {/* Profile image — the only one in the entire site */}
             <div
-              className="relative w-48 h-48 mx-auto lg:mx-0 mb-8 rounded-2xl border border-[rgba(56,189,248,0.15)] p-1"
+              className="relative w-48 h-48 mx-auto lg:mx-0 mb-8 rounded-2xl border border-[rgba(var(--accent-rgb),0.15)] p-1"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(129, 140, 248, 0.04))",
+                  "linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(129, 140, 248, 0.04))",
               }}
               onMouseEnter={() => setCursor("hover", "VIEW")}
               onMouseLeave={() => setCursor("default")}
             >
-              <div className="w-full h-full rounded-2xl bg-[#0B1017] flex items-center justify-center overflow-hidden">
-                {/* Initials as portrait */}
+              <div className="w-full h-full rounded-2xl bg-[var(--bg-deep)] flex items-center justify-center overflow-hidden">
                 <span className="text-4xl font-bold gradient-text">RY</span>
               </div>
-              {/* Holographic scan line */}
               <motion.div
                 animate={{ y: ["-100%", "200%"] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "linear-gradient(transparent 0%, rgba(56, 189, 248, 0.05) 50%, transparent 100%)",
+                    "linear-gradient(transparent 0%, rgba(var(--accent-rgb), 0.05) 50%, transparent 100%)",
                   height: "30%",
                 }}
               />
             </div>
 
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3 text-[#F5F7FA]">
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3 text-[var(--fg-primary)]">
               {profile.name.split(" ")[0]}
               <br />
               <span className="gradient-text">{profile.name.split(" ")[1]}</span>
             </h2>
 
             <div className="flex items-center gap-2 mb-6">
-              <span className="font-mono text-xs tracking-[0.15em] text-[#8B95A5] uppercase">
+              <span className="font-mono text-xs tracking-[0.15em] text-[var(--fg-secondary)] uppercase">
                 QA Engineer
               </span>
             </div>
 
-            <p className="text-[#8B95A5] leading-relaxed max-w-md">{profile.summary}</p>
+            <p className="text-[var(--fg-secondary)] leading-relaxed max-w-md">{profile.summary}</p>
           </motion.div>
 
           {/* Right: Floating tech nodes */}
@@ -90,12 +87,10 @@ export default function AboutSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative h-[400px] hidden lg:block"
           >
-            {/* Center core */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[rgba(56,189,248,0.2)] flex items-center justify-center bg-[rgba(56,189,248,0.05)]">
-              <span className="font-mono text-[8px] text-[#38BDF8] tracking-wider">QA</span>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[rgba(var(--accent-rgb),0.2)] flex items-center justify-center bg-[rgba(var(--accent-rgb),0.05)]">
+              <span className="font-mono text-[8px] text-[var(--accent)] tracking-wider">QA</span>
             </div>
 
-            {/* Tech nodes */}
             {techNodes.map((node, index) => {
               const rad = (node.angle * Math.PI) / 180;
               const x = Math.cos(rad) * node.radius;
@@ -117,15 +112,14 @@ export default function AboutSection() {
                   onMouseEnter={() => setCursor("explore", node.name)}
                   onMouseLeave={() => setCursor("default")}
                 >
-                  <div className="w-[100px] py-2 px-3 rounded-lg border border-[rgba(56,189,248,0.15)] bg-[rgba(5,7,10,0.8)] backdrop-blur-sm text-center hover:border-[rgba(56,189,248,0.4)] transition-all duration-300">
-                    <span className="font-mono text-[10px] tracking-wider text-[#38BDF8] block">
+                  <div className="w-[100px] py-2 px-3 rounded-lg border border-[rgba(var(--accent-rgb),0.15)] bg-[var(--card-bg)] backdrop-blur-sm text-center hover:border-[rgba(var(--accent-rgb),0.4)] transition-all duration-300">
+                    <span className="font-mono text-[10px] tracking-wider text-[var(--accent)] block">
                       {node.name}
                     </span>
-                    <span className="font-mono text-[8px] text-[#8B95A5] block mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="font-mono text-[8px] text-[var(--fg-secondary)] block mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       {node.desc}
                     </span>
                   </div>
-                  {/* Connection line */}
                   <svg
                     className="absolute pointer-events-none"
                     style={{
@@ -141,7 +135,7 @@ export default function AboutSection() {
                       y1={y > 0 ? 0 : Math.abs(y)}
                       x2={x > 0 ? Math.abs(x) : 0}
                       y2={y > 0 ? Math.abs(y) : 0}
-                      stroke="rgba(56, 189, 248, 0.08)"
+                      stroke="rgba(var(--accent-rgb), 0.08)"
                       strokeWidth="1"
                     />
                   </svg>
@@ -159,9 +153,9 @@ export default function AboutSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="py-2 px-3 rounded-lg border border-[rgba(56,189,248,0.1)] bg-[rgba(5,7,10,0.5)] text-center"
+                className="py-2 px-3 rounded-lg border border-[rgba(var(--accent-rgb),0.1)] bg-[var(--card-bg)] text-center"
               >
-                <span className="font-mono text-[10px] tracking-wider text-[#38BDF8]">
+                <span className="font-mono text-[10px] tracking-wider text-[var(--accent)]">
                   {node.name}
                 </span>
               </motion.div>

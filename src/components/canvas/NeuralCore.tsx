@@ -14,7 +14,11 @@ function generateCoreParticles() {
   }));
 }
 
-export default function NeuralCore() {
+interface NeuralCoreProps {
+  isDark: boolean;
+}
+
+export default function NeuralCore({ isDark }: NeuralCoreProps) {
   const groupRef = useRef<THREE.Group>(null);
   const innerRef = useRef<THREE.Mesh>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
@@ -24,26 +28,30 @@ export default function NeuralCore() {
   const dummy = useState(() => new THREE.Object3D())[0];
   const [coreParticles] = useState(generateCoreParticles);
 
+  const accentColor = isDark ? "#38BDF8" : "#0284c7";
+  const innerColor = isDark ? "#0B1017" : "#e2e8f0";
+  const emissiveIntensity = isDark ? 0.1 : 0.05;
+
   const wireframeMat = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
-        color: "#38BDF8",
+        color: accentColor,
         wireframe: true,
         transparent: true,
-        opacity: 0.15,
+        opacity: isDark ? 0.15 : 0.08,
       }),
-    [],
+    [accentColor, isDark],
   );
 
   const ringMat = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
-        color: "#38BDF8",
+        color: accentColor,
         transparent: true,
-        opacity: 0.25,
+        opacity: isDark ? 0.25 : 0.12,
         side: THREE.DoubleSide,
       }),
-    [],
+    [accentColor, isDark],
   );
 
   useFrame((state) => {
@@ -94,48 +102,43 @@ export default function NeuralCore() {
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Inner icosahedron */}
       <mesh ref={innerRef}>
         <icosahedronGeometry args={[0.7, 1]} />
         <meshStandardMaterial
-          color="#0B1017"
+          color={innerColor}
           metalness={0.9}
           roughness={0.1}
-          emissive="#38BDF8"
-          emissiveIntensity={0.1}
+          emissive={accentColor}
+          emissiveIntensity={emissiveIntensity}
         />
       </mesh>
 
-      {/* Wireframe overlay */}
       <mesh>
         <icosahedronGeometry args={[0.72, 1]} />
         <primitive object={wireframeMat} attach="material" />
       </mesh>
 
-      {/* Orbital rings */}
       <mesh ref={ring1Ref}>
         <torusGeometry args={[1.1, 0.008, 8, 64]} />
         <primitive object={ringMat} attach="material" />
       </mesh>
       <mesh ref={ring2Ref} rotation={[Math.PI / 3, 0, 0]}>
         <torusGeometry args={[1.3, 0.006, 8, 64]} />
-        <meshBasicMaterial color="#818CF8" transparent opacity={0.15} />
+        <meshBasicMaterial color="#818CF8" transparent opacity={isDark ? 0.15 : 0.08} />
       </mesh>
       <mesh ref={ring3Ref} rotation={[0, Math.PI / 3, 0]}>
         <torusGeometry args={[1.5, 0.004, 8, 64]} />
-        <meshBasicMaterial color="#38BDF8" transparent opacity={0.1} />
+        <meshBasicMaterial color={accentColor} transparent opacity={isDark ? 0.1 : 0.05} />
       </mesh>
 
-      {/* Core particles */}
       <instancedMesh ref={particlesRef} args={[undefined, undefined, 60]}>
         <sphereGeometry args={[1, 6, 6]} />
-        <meshBasicMaterial color="#38BDF8" transparent opacity={0.6} />
+        <meshBasicMaterial color={accentColor} transparent opacity={isDark ? 0.6 : 0.3} />
       </instancedMesh>
 
-      {/* Center glow */}
       <mesh>
         <sphereGeometry args={[0.3, 16, 16]} />
-        <meshBasicMaterial color="#38BDF8" transparent opacity={0.08} />
+        <meshBasicMaterial color={accentColor} transparent opacity={isDark ? 0.08 : 0.04} />
       </mesh>
     </group>
   );

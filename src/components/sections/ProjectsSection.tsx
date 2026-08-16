@@ -2,39 +2,29 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import SectionLabel from "@/components/ui/SectionLabel";
 import { useCursor } from "@/hooks/useCursorContext";
 import { projects } from "@/data/projects";
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const { setCursor } = useCursor();
 
   const expanded = projects.find((p) => p.slug === expandedProject);
 
   return (
-    <section id="projects" className="relative py-24 md:py-32 px-6">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(129, 140, 248, 0.03) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+      {!isStandalone && (
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(129, 140, 248, 0.03) 0%, transparent 70%)",
+            }}
+          />
+        </div>
+      )}
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full">
-        <SectionLabel label="PROJECTS" number="06" />
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl sm:text-5xl font-bold tracking-tight mb-16 text-[#F5F7FA]"
-        >
-          Project <span className="gradient-text">Archive</span>
-        </motion.h2>
-
+      <div className={isStandalone ? "" : "relative z-10 content-wrap w-full"}>
         <AnimatePresence mode="wait">
           {expanded ? (
             <motion.div
@@ -42,11 +32,11 @@ export default function ProjectsSection() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="p-8 rounded-2xl border border-[rgba(56,189,248,0.15)] bg-[rgba(5,7,10,0.8)] backdrop-blur-sm"
+              className="p-8 rounded-2xl border border-[rgba(var(--accent-rgb),0.15)] bg-[var(--card-bg)] backdrop-blur-sm"
             >
               <button
                 onClick={() => setExpandedProject(null)}
-                className="font-mono text-[10px] tracking-[0.2em] text-[#8B95A5] hover:text-[#38BDF8] transition-colors mb-6 cursor-none"
+                className="font-mono text-[10px] tracking-[0.2em] text-[var(--fg-secondary)] hover:text-[var(--accent)] transition-colors mb-6 cursor-none"
                 onMouseEnter={() => setCursor("hover", "BACK")}
                 onMouseLeave={() => setCursor("default")}
               >
@@ -54,28 +44,27 @@ export default function ProjectsSection() {
               </button>
 
               <div className="flex items-center gap-3 mb-4">
-                <span className="font-mono text-[10px] tracking-[0.2em] text-[#38BDF8]">
+                <span className="font-mono text-[10px] tracking-[0.2em] text-[var(--accent)]">
                   PROJECT / {String(projects.indexOf(expanded) + 1).padStart(2, "0")}
                 </span>
               </div>
 
-              <h3 className="text-3xl font-bold text-[#F5F7FA] mb-2">{expanded.name}</h3>
-              <p className="text-sm text-[#8B95A5] mb-6">{expanded.type}</p>
+              <h3 className="text-3xl font-bold text-[var(--fg-primary)] mb-2">{expanded.name}</h3>
+              <p className="text-sm text-[var(--fg-secondary)] mb-6">{expanded.type}</p>
 
-              <p className="text-[#8B95A5] leading-relaxed mb-8 max-w-2xl">
+              <p className="text-[var(--fg-secondary)] leading-relaxed mb-8 max-w-2xl">
                 {expanded.shortDescription}
               </p>
 
-              {/* Tech stack */}
               <div className="mb-8">
-                <h4 className="font-mono text-[10px] tracking-[0.2em] text-[#8B95A5] mb-3">
+                <h4 className="font-mono text-[10px] tracking-[0.2em] text-[var(--fg-secondary)] mb-3">
                   TECH STACK
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {expanded.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1.5 text-xs font-mono tracking-wider rounded-lg border border-[rgba(56,189,248,0.15)] text-[#38BDF8] bg-[rgba(56,189,248,0.05)]"
+                      className="px-3 py-1.5 text-xs font-mono tracking-wider rounded-lg border border-[rgba(var(--accent-rgb),0.15)] text-[var(--accent)] bg-[rgba(var(--accent-rgb),0.05)]"
                     >
                       {tech}
                     </span>
@@ -83,15 +72,17 @@ export default function ProjectsSection() {
                 </div>
               </div>
 
-              {/* Key contributions */}
               <div>
-                <h4 className="font-mono text-[10px] tracking-[0.2em] text-[#8B95A5] mb-3">
+                <h4 className="font-mono text-[10px] tracking-[0.2em] text-[var(--fg-secondary)] mb-3">
                   KEY CONTRIBUTIONS
                 </h4>
                 <ul className="space-y-2">
                   {expanded.keyContributions.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-[#8B95A5]">
-                      <span className="text-[#38BDF8] mt-1">→</span>
+                    <li
+                      key={i}
+                      className="flex items-start gap-2 text-sm text-[var(--fg-secondary)]"
+                    >
+                      <span className="text-[var(--accent)] mt-1">→</span>
                       {item}
                     </li>
                   ))}
@@ -114,20 +105,20 @@ export default function ProjectsSection() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className="group p-6 rounded-2xl border border-[rgba(56,189,248,0.08)] bg-[rgba(5,7,10,0.5)] backdrop-blur-sm hover:border-[rgba(56,189,248,0.25)] transition-all duration-500 cursor-none"
+                  className="group p-6 rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] backdrop-blur-sm hover:border-[rgba(var(--accent-rgb),0.25)] transition-all duration-500 cursor-none"
                   onClick={() => setExpandedProject(project.slug)}
                   onMouseEnter={() => setCursor("hover", "OPEN PROJECT →")}
                   onMouseLeave={() => setCursor("default")}
                 >
-                  <div className="font-mono text-[10px] tracking-[0.2em] text-[#38BDF8] mb-3">
+                  <div className="font-mono text-[10px] tracking-[0.2em] text-[var(--accent)] mb-3">
                     PROJECT / {String(index + 1).padStart(2, "0")}
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#F5F7FA] mb-2 group-hover:text-[#38BDF8] transition-colors">
+                  <h3 className="text-lg font-bold text-[var(--fg-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors">
                     {project.name}
                   </h3>
 
-                  <p className="text-xs text-[#8B95A5] mb-4 line-clamp-2">
+                  <p className="text-xs text-[var(--fg-secondary)] mb-4 line-clamp-2">
                     {project.shortDescription}
                   </p>
 
@@ -135,13 +126,13 @@ export default function ProjectsSection() {
                     {project.technologies.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-0.5 text-[9px] font-mono tracking-wider rounded border border-[rgba(56,189,248,0.1)] text-[#8B95A5]"
+                        className="px-2 py-0.5 text-[9px] font-mono tracking-wider rounded border border-[rgba(var(--accent-rgb),0.1)] text-[var(--fg-secondary)]"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.technologies.length > 3 && (
-                      <span className="px-2 py-0.5 text-[9px] font-mono text-[#8B95A5]">
+                      <span className="px-2 py-0.5 text-[9px] font-mono text-[var(--fg-secondary)]">
                         +{project.technologies.length - 3}
                       </span>
                     )}

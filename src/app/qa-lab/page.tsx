@@ -3,18 +3,18 @@
 import PageHeader from "@/components/layout/PageHeader";
 import PageContainer from "@/components/layout/PageContainer";
 import PageTransition from "@/components/layout/PageTransition";
-import ContactSection from "@/components/sections/ContactSection";
+import QALabSection from "@/components/sections/QALabSection";
 
-export default function ContactPage() {
+export default function QALabPage() {
   return (
     <PageTransition>
       <PageContainer>
         <PageHeader
-          label="CONTACT"
-          heading="Establish Connection"
-          description="Ready to collaborate? Send a transmission or connect through the channels below."
+          label="QA LAB"
+          heading="QA Testing Lab"
+          description="The complete quality engineering pipeline — from requirement analysis to build verification."
         />
-        <ContactSection isStandalone />
+        <QALabSection isStandalone />
       </PageContainer>
     </PageTransition>
   );
