@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCursor } from "@/hooks/useCursorContext";
 
@@ -72,10 +72,42 @@ const stages = [
 
 export default function QALabSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const [activeStage, setActiveStage] = useState<number | null>(null);
+  const [activatedStages, setActivatedStages] = useState<Set<number>>(new Set());
+  const [signalIndex, setSignalIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const { setCursor } = useCursor();
 
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            let idx = 0;
+            const interval = setInterval(() => {
+              if (idx >= stages.length) {
+                clearInterval(interval);
+                return;
+              }
+              setActivatedStages((prev) => new Set([...prev, idx]));
+              setSignalIndex(idx);
+              idx++;
+            }, 180);
+            return () => clearInterval(interval);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+    <section
+      ref={sectionRef}
+      className={isStandalone ? "pt-10 md:pt-16 pb-32 md:pb-44" : "relative py-24 md:py-32"}
+    >
       {!isStandalone && (
         <div className="absolute inset-0 pointer-events-none">
           <div
@@ -93,46 +125,88 @@ export default function QALabSection({ isStandalone = false }: { isStandalone?: 
           <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[rgba(var(--accent-rgb),0.15)] to-transparent -translate-y-1/2 hidden md:block" />
 
           <div className="grid grid-cols-3 md:grid-cols-9 gap-3 md:gap-2">
-            {stages.map((stage, index) => (
-              <motion.div
-                key={stage.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="relative group cursor-none"
-                onMouseEnter={() => {
-                  setActiveStage(index);
-                  setCursor("hover", stage.label);
-                }}
-                onMouseLeave={() => {
-                  setActiveStage(null);
-                  setCursor("default");
-                }}
-              >
-                <div
-                  className="relative p-3 rounded-xl border text-center transition-all duration-500"
-                  style={{
-                    borderColor: activeStage === index ? `${stage.color}40` : "var(--border)",
-                    background: activeStage === index ? `${stage.color}08` : "var(--card-bg)",
-                    boxShadow: activeStage === index ? `0 0 20px ${stage.color}15` : "none",
+            {stages.map((stage, index) => {
+              const isActive = activeStage === index;
+              const isActivated = activatedStages.has(index);
+              const isSignaling = signalIndex === index;
+
+              return (
+                <motion.div
+                  key={stage.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.12, duration: 0.5 }}
+                  className="relative group cursor-none"
+                  onMouseEnter={() => {
+                    setActiveStage(index);
+                    setCursor("hover", stage.label);
+                  }}
+                  onMouseLeave={() => {
+                    setActiveStage(null);
+                    setCursor("default");
                   }}
                 >
-                  <div className="text-lg mb-1">{stage.icon}</div>
-                  <span
-                    className="font-mono text-[7px] sm:text-[8px] tracking-wider block leading-tight"
-                    style={{ color: activeStage === index ? stage.color : "var(--fg-secondary)" }}
+                  <div
+                    className="relative p-3 rounded-xl border text-center transition-all duration-500"
+                    style={{
+                      borderColor: isActive
+                        ? `${stage.color}60`
+                        : isSignaling
+                          ? `${stage.color}40`
+                          : isActivated
+                            ? "rgba(var(--accent-rgb),0.15)"
+                            : "var(--border)",
+                      background: isActive
+                        ? `${stage.color}10`
+                        : isSignaling
+                          ? `${stage.color}08`
+                          : "var(--card-bg)",
+                      boxShadow: isActive
+                        ? `0 0 24px ${stage.color}20`
+                        : isSignaling
+                          ? `0 0 16px ${stage.color}15`
+                          : "none",
+                    }}
                   >
-                    {stage.label}
-                  </span>
-                  {index < stages.length - 1 && (
-                    <div className="absolute -right-2 sm:-right-3 top-1/2 -translate-y-1/2 text-[var(--accent)] text-xs opacity-30 z-10">
-                      →
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                    <div className="text-lg mb-1">{stage.icon}</div>
+                    <span
+                      className="font-mono text-[7px] sm:text-[8px] tracking-wider block leading-tight"
+                      style={{
+                        color: isActive
+                          ? stage.color
+                          : isActivated
+                            ? "var(--fg-primary)"
+                            : "var(--fg-secondary)",
+                      }}
+                    >
+                      {stage.label}
+                    </span>
+
+                    {isActivated && !isActive && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-1 -right-1 w-2 h-2 rounded-full"
+                        style={{ background: stage.color }}
+                      />
+                    )}
+
+                    {index < stages.length - 1 && (
+                      <div
+                        className="absolute -right-2 sm:-right-3 top-1/2 -translate-y-1/2 text-xs opacity-30 z-10 transition-all duration-500"
+                        style={{
+                          color: isActivated ? "var(--accent)" : "var(--fg-secondary)",
+                          opacity: isActivated ? 0.6 : 0.2,
+                        }}
+                      >
+                        →
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 

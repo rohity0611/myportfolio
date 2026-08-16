@@ -2,6 +2,38 @@ import { Project } from "@/types";
 
 export const projects: Project[] = [
   {
+    slug: "cotta-platform",
+    name: "Cotta – Multi-Platform Ordering & Partner Management",
+    type: "Multi-Platform Application",
+    role: "QA Engineer",
+    technologies: ["Jira", "ClickUp", "Hubscotch", "MongoDB", "Excel", "Agile/Scrum"],
+    testingAreas: [
+      "End-to-End Manual Testing",
+      "API Testing",
+      "Regression Testing",
+      "Smoke Testing",
+      "UAT",
+      "Third-Party Integration Validation",
+    ],
+    shortDescription:
+      "End-to-end quality assurance across Consumer App, Consumer Web, Partner App, and Partner Web — ensuring reliability across user and partner journeys.",
+    keyContributions: [
+      "Performed end-to-end manual testing across 4 platforms (Consumer App, Consumer Web, Partner App, Partner Web), validating complete user journeys from order placement to partner fulfillment",
+      "Designed, documented, and executed test cases using Excel, ensuring strong functional and edge-case coverage",
+      "Identified and reported high-impact bugs using Jira and ClickUp with detailed reproduction steps, logs, and supporting evidence",
+      "Collaborated closely with developers and product teams for bug triaging, root cause analysis, and faster resolution",
+      "Conducted API testing using Hubscotch, validating request/response structures, authentication, and third-party integrations",
+      "Validated integrations with HubSpot and Stripe, ensuring accurate data sync and payment/payout workflows",
+      "Investigated data latency issues (1–2 minutes delay) and provided insights into async processing and backend dependencies",
+      "Used MongoDB for backend data validation to ensure consistency between UI and database",
+      "Executed regression and smoke testing during release cycles, ensuring stability of existing features",
+      "Validated complex workflows including ASAP orders, scheduled deliveries, consolidated orders, and refund scenarios",
+      "Ensured UI/UX consistency across platforms by validating design requirements and identifying mismatches",
+      "Leveraged AI tools to improve efficiency in test case creation, bug analysis, and documentation",
+    ],
+    featured: true,
+  },
+  {
     slug: "finance-dashboard-testing",
     name: "Finance Dashboard Platform",
     type: "Enterprise Web Application",

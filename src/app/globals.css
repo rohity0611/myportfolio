@@ -70,10 +70,10 @@ html.light {
 }
 
 /* ===== GLOBAL RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 }
 
 html {
@@ -337,6 +337,35 @@ html.theme-transitioning *::after {
 
   .magnetic-btn {
     cursor: pointer !important;
+  }
+}
+
+/* ===== NODE FLOAT ANIMATIONS ===== */
+@keyframes nodeFloat0 {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes nodeFloat1 {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(-6px) translateX(4px);
+  }
+}
+@keyframes nodeFloat2 {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-3px);
   }
 }
 

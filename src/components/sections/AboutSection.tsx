@@ -17,7 +17,7 @@ export default function AboutSection({ isStandalone = false }: { isStandalone?: 
   const { setCursor } = useCursor();
 
   return (
-    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+    <section className={isStandalone ? "pt-8 md:pt-12 pb-16 md:pb-24" : "relative py-24 md:py-32"}>
       {!isStandalone && (
         <div className="absolute inset-0 pointer-events-none">
           <div
@@ -64,9 +64,8 @@ export default function AboutSection({ isStandalone = false }: { isStandalone?: 
               />
             </div>
 
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3 text-[var(--fg-primary)]">
-              {profile.name.split(" ")[0]}
-              <br />
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3 text-[var(--fg-primary)] whitespace-nowrap">
+              {profile.name.split(" ")[0]}{" "}
               <span className="gradient-text">{profile.name.split(" ")[1]}</span>
             </h2>
 
@@ -108,6 +107,7 @@ export default function AboutSection({ isStandalone = false }: { isStandalone?: 
                   style={{
                     left: `calc(50% + ${x}px - 50px)`,
                     top: `calc(50% + ${y}px - 20px)`,
+                    animation: `nodeFloat${index % 3} ${4 + index * 0.5}s ease-in-out infinite`,
                   }}
                   onMouseEnter={() => setCursor("explore", node.name)}
                   onMouseLeave={() => setCursor("default")}

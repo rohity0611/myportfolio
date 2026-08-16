@@ -10,7 +10,7 @@ export default function SkillsSection({ isStandalone = false }: { isStandalone?:
   const { setCursor } = useCursor();
 
   return (
-    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+    <section className={isStandalone ? "pt-8 md:pt-12 pb-16 md:pb-24" : "relative py-24 md:py-32"}>
       {!isStandalone && (
         <div className="absolute inset-0 pointer-events-none">
           <div
@@ -70,7 +70,7 @@ export default function SkillsSection({ isStandalone = false }: { isStandalone?:
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.03 }}
                     whileHover={{ scale: 1.05, zIndex: 10 }}
-                    className="p-4 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] backdrop-blur-sm hover:border-[rgba(var(--accent-rgb),0.25)] transition-all duration-300 cursor-none"
+                    className="p-4 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] backdrop-blur-sm hover:border-[rgba(var(--accent-rgb),0.3)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.08)] transition-all duration-300 cursor-none"
                     onMouseEnter={() => setCursor("hover", skill.level.toUpperCase())}
                     onMouseLeave={() => setCursor("default")}
                   >

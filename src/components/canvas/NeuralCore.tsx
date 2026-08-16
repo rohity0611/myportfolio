@@ -16,9 +16,10 @@ function generateCoreParticles() {
 
 interface NeuralCoreProps {
   isDark: boolean;
+  mousePosition: { x: number; y: number };
 }
 
-export default function NeuralCore({ isDark }: NeuralCoreProps) {
+export default function NeuralCore({ isDark, mousePosition }: NeuralCoreProps) {
   const groupRef = useRef<THREE.Group>(null);
   const innerRef = useRef<THREE.Mesh>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
@@ -58,8 +59,12 @@ export default function NeuralCore({ isDark }: NeuralCoreProps) {
     const time = state.clock.elapsedTime;
 
     if (groupRef.current) {
-      groupRef.current.rotation.y = time * 0.1;
-      groupRef.current.rotation.x = Math.sin(time * 0.05) * 0.1;
+      const mouseRotY = mousePosition.x * 0.15;
+      const mouseRotX = mousePosition.y * 0.1;
+      const baseRotY = time * 0.1;
+      const baseRotX = Math.sin(time * 0.05) * 0.1;
+      groupRef.current.rotation.y += (baseRotY + mouseRotY - groupRef.current.rotation.y) * 0.03;
+      groupRef.current.rotation.x += (baseRotX + mouseRotX - groupRef.current.rotation.x) * 0.03;
     }
 
     if (innerRef.current) {

@@ -12,7 +12,7 @@ export default function ProjectsSection({ isStandalone = false }: { isStandalone
   const expanded = projects.find((p) => p.slug === expandedProject);
 
   return (
-    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+    <section className={isStandalone ? "pt-8 md:pt-12 pb-16 md:pb-24" : "relative py-24 md:py-32"}>
       {!isStandalone && (
         <div className="absolute inset-0 pointer-events-none">
           <div
@@ -104,11 +104,21 @@ export default function ProjectsSection({ isStandalone = false }: { isStandalone
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="group p-6 rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] backdrop-blur-sm hover:border-[rgba(var(--accent-rgb),0.25)] transition-all duration-500 cursor-none"
+                  whileHover={{ y: -5 }}
+                  className="group p-6 rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] backdrop-blur-sm hover:border-[rgba(var(--accent-rgb),0.25)] hover:shadow-[0_8px_30px_rgba(var(--accent-rgb),0.08)] transition-all duration-500 cursor-none"
+                  style={{ perspective: "800px" }}
                   onClick={() => setExpandedProject(project.slug)}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    e.currentTarget.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-5px)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "";
+                    setCursor("default");
+                  }}
                   onMouseEnter={() => setCursor("hover", "OPEN PROJECT →")}
-                  onMouseLeave={() => setCursor("default")}
                 >
                   <div className="font-mono text-[10px] tracking-[0.2em] text-[var(--accent)] mb-3">
                     PROJECT / {String(index + 1).padStart(2, "0")}

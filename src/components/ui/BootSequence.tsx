@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const lines = [
   { text: "Loading portfolio...", delay: 0 },
-  { text: "Initializing workspace...", delay: 600 },
-  { text: "Calibrating interface...", delay: 1200 },
-  { text: "Ready", delay: 1800 },
+  { text: "Initializing workspace...", delay: 300 },
+  { text: "Calibrating interface...", delay: 600 },
+  { text: "Ready", delay: 900 },
 ];
 
 export default function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -23,8 +23,8 @@ export default function BootSequence({ onComplete }: { onComplete: () => void })
 
     setTimeout(() => {
       setIsComplete(true);
-      setTimeout(onComplete, 500);
-    }, 2400);
+      setTimeout(onComplete, 300);
+    }, 1400);
   }, [onComplete]);
 
   return (
@@ -34,7 +34,7 @@ export default function BootSequence({ onComplete }: { onComplete: () => void })
           className="fixed inset-0 z-[10000] flex items-center justify-center"
           style={{ background: "var(--bg-primary)" }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <div className="max-w-md w-full px-8">
             <div className="border border-[rgba(var(--accent-rgb),0.15)] rounded-lg p-6 bg-[var(--card-bg)]">
@@ -53,7 +53,7 @@ export default function BootSequence({ onComplete }: { onComplete: () => void })
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.2 }}
                     className="flex items-center gap-2"
                   >
                     <span className="font-mono text-[10px] text-[var(--fg-secondary)]">{">"}</span>

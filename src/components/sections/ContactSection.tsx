@@ -60,7 +60,7 @@ export default function ContactSection({ isStandalone = false }: { isStandalone?
   };
 
   return (
-    <section className={isStandalone ? "section-gap" : "relative py-24 md:py-32"}>
+    <section className={isStandalone ? "pt-8 md:pt-12 pb-16 md:pb-24" : "relative py-24 md:py-32"}>
       {!isStandalone && (
         <div className="absolute inset-0 pointer-events-none">
           <div

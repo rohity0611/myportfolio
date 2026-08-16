@@ -5,7 +5,7 @@ export const profile: Profile = {
   title: "QA Engineer",
   tagline: "Building, testing, and improving reliable digital experiences",
   summary:
-    "QA Engineer with expertise spanning manual testing, API validation, automation engineering, and quality assurance across web and mobile platforms. Background in SAP S/4HANA Development and Java programming. Proficient in identifying critical defects, designing comprehensive test strategies, and building automation frameworks that ensure reliable software delivery.",
+    "Detail-oriented QA Engineer with hands-on experience in manual testing across multi-platform applications. Skilled in end-to-end testing, API validation, and third-party integrations, with a strong focus on identifying critical bugs and ensuring system stability. Experienced in Agile environments, collaborating with cross-functional teams, and delivering high-quality, reliable products.",
   email: "yadavrohit0660@gmail.com",
   phone: "+91 9875607977",
   linkedin: "https://www.linkedin.com/in/rohit-yadav-6560a117/",
@@ -15,10 +15,10 @@ export const profile: Profile = {
 };
 
 export const metrics: Metric[] = [
-  { label: "Projects Tested", value: "5+", placeholder: false },
-  { label: "Test Cases Written", value: "200+", placeholder: false },
-  { label: "Bugs Identified", value: "100+", placeholder: false },
-  { label: "Automation Scripts", value: "50+", placeholder: false },
+  { label: "Projects Tested", value: "6+", placeholder: false },
+  { label: "Test Cases Written", value: "300+", placeholder: false },
+  { label: "Bugs Identified", value: "150+", placeholder: false },
+  { label: "Platforms Tested", value: "8+", placeholder: false },
   { label: "Years Experience", value: "3+", placeholder: false },
 ];
 
