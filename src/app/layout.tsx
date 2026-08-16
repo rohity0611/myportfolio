@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import Navbar from "@/components/navigation/Navbar";
-import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,23 +14,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Rohit Yadav | Quality Assurance Engineer",
+    default: "Rohit Yadav | QA Engineer",
     template: "%s | Rohit Yadav",
   },
   description:
-    "Rohit Yadav — Quality Assurance Engineer with expertise in manual testing, API validation, automation engineering, and quality assurance across web and mobile platforms. Based in Howrah, West Bengal.",
+    "Rohit Yadav — QA Engineer. Building, testing, and automating reliable digital experiences.",
   keywords: [
     "Rohit Yadav",
     "QA Engineer",
     "Quality Assurance",
     "Software Testing",
     "Automation Engineer",
-    "Manual Testing",
-    "API Testing",
+    "Java",
     "Selenium",
     "Playwright",
     "SAP S/4HANA",
-    "Test Automation",
     "Howrah",
     "West Bengal",
   ],
@@ -42,15 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Rohit Yadav — QA Engineer",
-    title: "Rohit Yadav | Quality Assurance Engineer",
-    description:
-      "Quality Assurance Engineer with expertise in manual testing, API validation, automation engineering, and quality assurance.",
+    title: "Rohit Yadav | QA Engineer",
+    description: "QA Engineer. Building, testing, and automating reliable digital experiences.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohit Yadav | Quality Assurance Engineer",
-    description:
-      "Quality Assurance Engineer with expertise in manual testing, API validation, automation engineering, and quality assurance.",
+    title: "Rohit Yadav | QA Engineer",
+    description: "QA Engineer. Building, testing, and automating reliable digital experiences.",
   },
   robots: {
     index: true,
@@ -62,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -70,31 +63,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.classList.add('light');
-                  } else if (theme === 'dark' || !theme) {
-                    document.documentElement.classList.remove('light');
-                    document.documentElement.classList.add('dark');
-                  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.classList.add('light');
-                  }
-                } catch(e) {}
+                document.documentElement.style.background = '#05070A';
+                document.documentElement.style.color = '#F5F7FA';
               })();
             `,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
-        <ThemeProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </ThemeProvider>
-      </body>
+      <body style={{ background: "#05070A" }}>{children}</body>
     </html>
   );
 }

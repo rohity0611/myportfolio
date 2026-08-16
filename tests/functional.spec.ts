@@ -1,89 +1,146 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Functional tests", () => {
-  test("all internal pages load without errors", async ({ page }) => {
-    const pages = [
-      "/",
-      "/about",
-      "/experience",
-      "/projects",
-      "/skills",
-      "/case-studies",
-      "/contact",
-    ];
-    for (const path of pages) {
-      const response = await page.goto(path);
-      expect(response?.status()).toBe(200);
-    }
-  });
+async function waitForBoot(page: import("@playwright/test").Page) {
+  await page.waitForTimeout(4000);
+  await expect(page.locator("h1")).toBeVisible({ timeout: 5000 });
+}
 
-  test("resume link has download attribute on desktop", async ({ page }) => {
+test.describe("Resume", () => {
+  test("resume link exists in desktop nav", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    const resumeLink = page.getByRole("link", { name: "Resume" }).first();
-    await expect(resumeLink).toHaveAttribute("download", "");
+    const resumeLink = page.getByRole("link", { name: "RESUME" }).first();
+    await expect(resumeLink).toBeVisible();
+    await expect(resumeLink).toHaveAttribute("href", "/certificates/Rohit-Yadav-CV.pdf");
   });
 
-  test("project detail page loads from project list", async ({ page }) => {
-    await page.goto("/projects");
-    const projectLink = page.getByRole("link").filter({ hasText: "Finance Dashboard" }).first();
-    if (await projectLink.isVisible()) {
-      await projectLink.click();
-      await expect(page).toHaveURL(/\/projects\//);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    } else {
-      await page.goto("/projects/finance-dashboard-testing");
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    }
+  test("resume PDF is accessible", async ({ request }) => {
+    const response = await request.get("/certificates/Rohit-Yadav-CV.pdf");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("pdf");
   });
+});
 
-  test("case study detail page loads from case study list", async ({ page }) => {
-    await page.goto("/case-studies");
-    const studyLink = page.getByRole("link").filter({ hasText: "Finance Data" }).first();
-    if (await studyLink.isVisible()) {
-      await studyLink.click();
-      await expect(page).toHaveURL(/\/case-studies\//);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    } else {
-      await page.goto("/case-studies/finance-data-validation-discrepancy");
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    }
-  });
-
-  test("back to projects link works on project detail", async ({ page }) => {
-    await page.goto("/projects/finance-dashboard-testing");
-    const backLink = page.getByRole("link", { name: "Back to Projects" });
-    await expect(backLink).toBeVisible();
-    await backLink.click();
-    await expect(page).toHaveURL(/\/projects/);
-  });
-
-  test("back to case studies link works on case study detail", async ({ page }) => {
-    await page.goto("/case-studies/finance-data-validation-discrepancy");
-    const backLink = page.getByRole("link", { name: "Back to Case Studies" });
-    await expect(backLink).toBeVisible();
-    await backLink.click();
-    await expect(page).toHaveURL(/\/case-studies/);
-  });
-
-  test("contact form resets after submission", async ({ page }) => {
-    await page.goto("/contact");
-    await page.getByLabel("Name").fill("Test User");
-    await page.getByLabel("Email").fill("test@example.com");
-    await page.getByLabel("Subject").fill("Test Subject");
-    await page.getByLabel("Message").fill("This is a test message with enough characters.");
-    await page.getByRole("button", { name: "Send Message" }).click();
-    await expect(page.getByLabel("Name")).toHaveValue("");
-    await expect(page.getByLabel("Email")).toHaveValue("");
-  });
-
-  test("QA playground reset button works", async ({ page }) => {
+test.describe("Contact form", () => {
+  test("contact form is visible", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("heading", { name: "Interactive test demo" }).scrollIntoViewIfNeeded();
-    await page.getByLabel("Email").fill("test@example.com");
-    await page.getByLabel("Password").fill("Password1");
-    await page.getByRole("button", { name: "Reset" }).click();
-    await expect(page.getByLabel("Email")).toHaveValue("");
-    await expect(page.getByLabel("Password")).toHaveValue("");
+    await waitForBoot(page);
+    const contactSection = page.locator("#contact");
+    await contactSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await expect(page.getByPlaceholder("Your name")).toBeVisible();
+    await expect(page.getByPlaceholder("your@email.com")).toBeVisible();
+    await expect(page.getByPlaceholder("What's this about?")).toBeVisible();
+    await expect(page.getByPlaceholder("Your message...")).toBeVisible();
+  });
+
+  test("contact form validates empty submission", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const contactSection = page.locator("#contact");
+    await contactSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await page
+      .locator("#contact")
+      .getByRole("button", { name: /TRANSMIT MESSAGE/i })
+      .click();
+    await expect(page.getByText("Name is required")).toBeVisible();
+    await expect(page.getByText("Email is required")).toBeVisible();
+  });
+
+  test("contact form validates invalid email", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const contactSection = page.locator("#contact");
+    await contactSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await page.getByPlaceholder("Your name").fill("Test User");
+    // foo@bar is accepted by browser's type=email but fails regex (no dot)
+    await page.getByPlaceholder("your@email.com").fill("foo@bar");
+    await page.getByPlaceholder("What's this about?").fill("Test");
+    await page.getByPlaceholder("Your message...").fill("Test message content here.");
+    await page
+      .locator("#contact")
+      .getByRole("button", { name: /TRANSMIT MESSAGE/i })
+      .click();
+    await expect(page.getByText("Invalid email")).toBeVisible();
+  });
+
+  test("contact form accepts valid email", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const contactSection = page.locator("#contact");
+    await contactSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await page.getByPlaceholder("Your name").fill("Test User");
+    await page.getByPlaceholder("your@email.com").fill("test@example.com");
+    await page.getByPlaceholder("What's this about?").fill("Test Subject");
+    await page.getByPlaceholder("Your message...").fill("Test message content here.");
+    await page
+      .locator("#contact")
+      .getByRole("button", { name: /TRANSMIT MESSAGE/i })
+      .click();
+    // Should not show validation errors
+    await expect(page.getByText("Name is required")).not.toBeVisible();
+    await expect(page.getByText("Email is required")).not.toBeVisible();
+  });
+});
+
+test.describe("Sections", () => {
+  test("all major sections exist", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    await expect(page.locator("#hero")).toBeAttached();
+    await expect(page.locator("#about")).toBeAttached();
+    await expect(page.locator("#experience")).toBeAttached();
+    await expect(page.locator("#skills")).toBeAttached();
+    await expect(page.locator("#qa-lab")).toBeAttached();
+    await expect(page.locator("#projects")).toBeAttached();
+    await expect(page.locator("#contact")).toBeAttached();
+  });
+
+  test("QA Lab section displays stages", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const qaSection = page.locator("#qa-lab");
+    await qaSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await expect(qaSection.getByText("REQUIREMENT", { exact: true }).first()).toBeVisible();
+    await expect(qaSection.getByText("TEST DESIGN", { exact: true }).first()).toBeVisible();
+    await expect(qaSection.getByText("BUILD VERIFIED", { exact: true }).first()).toBeVisible();
+  });
+
+  test("projects section shows project cards", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const projectsSection = page.locator("#projects");
+    await projectsSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    await expect(projectsSection.getByText("Project Archive")).toBeVisible();
+  });
+});
+
+test.describe("Branding", () => {
+  test("Full Stack Developer is not present", async ({ page }) => {
+    await page.goto("/");
+    const content = await page.content();
+    expect(content).not.toContain("Full Stack Developer");
+    expect(content).not.toContain("Full-Stack Developer");
+    expect(content).not.toContain("full-stack developer");
+    expect(content).not.toContain("full stack developer");
+  });
+
+  test("QA Engineer is present", async ({ page }) => {
+    await page.goto("/");
+    await waitForBoot(page);
+    const hero = page.locator("#hero");
+    await expect(hero.getByText("QA Engineer")).toBeVisible();
+  });
+});
+
+test.describe("404", () => {
+  test("shows 404 for non-existent page", async ({ page }) => {
+    const response = await page.goto("/non-existent-page");
+    expect(response?.status()).toBe(404);
   });
 });

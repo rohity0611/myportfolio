@@ -1,45 +1,41 @@
 import { test, expect } from "@playwright/test";
 
+async function waitForBoot(page: import("@playwright/test").Page) {
+  await page.waitForTimeout(4000);
+  await expect(page.locator("h1")).toBeVisible({ timeout: 5000 });
+}
+
 test.describe("Responsive - Mobile", () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test("mobile menu button is visible", async ({ page }) => {
+  test("hero heading is visible", async ({ page }) => {
     await page.goto("/");
-    const menuButton = page.getByRole("button", { name: "Open menu" });
-    await expect(menuButton).toBeVisible();
-  });
-
-  test("mobile menu opens and closes", async ({ page }) => {
-    await page.goto("/");
-    const openButton = page.getByRole("button", { name: "Open menu" });
-    await openButton.click();
-    await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
-    await page.getByRole("button", { name: "Close menu" }).click();
-    await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
-  });
-
-  test("mobile menu navigation works", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("button", { name: "Open menu" }).click();
-    // Wait for animation
-    await page.waitForTimeout(500);
-    // Click the About link in the mobile drawer (the one with the accent bar)
-    await page.getByRole("link", { name: "About" }).last().click();
-    await expect(page).toHaveURL(/\/about/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("no horizontal overflow on mobile", async ({ page }) => {
     await page.goto("/");
     const bodyWidth = await page.evaluate(() => document.body.scrollWidth);
     const viewportWidth = await page.evaluate(() => window.innerWidth);
-    expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 20);
+    expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 10);
   });
 
-  test("homepage sections render on mobile", async ({ page }) => {
+  test("mobile menu button opens sidebar", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByText("Engineering quality into")).toBeVisible();
-    await expect(page.getByText("Engineering skill system")).toBeVisible();
+    await waitForBoot(page);
+    const menuButton = page.getByRole("button", { name: /open navigation menu/i });
+    await expect(menuButton).toBeVisible();
+    await menuButton.click();
+    const sidebar = page.locator("#mobile-sidebar");
+    await expect(sidebar).toBeVisible();
+  });
+
+  test("page scrolls on mobile", async ({ page }) => {
+    await page.goto("/");
+    const scrollYBefore = await page.evaluate(() => window.scrollY);
+    await page.evaluate(() => window.scrollBy(0, 500));
+    const scrollYAfter = await page.evaluate(() => window.scrollY);
+    expect(scrollYAfter).toBeGreaterThan(scrollYBefore);
   });
 });
 
@@ -50,12 +46,12 @@ test.describe("Responsive - Tablet", () => {
     await page.goto("/");
     const bodyWidth = await page.evaluate(() => document.body.scrollWidth);
     const viewportWidth = await page.evaluate(() => window.innerWidth);
-    expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 20);
+    expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 10);
   });
 
-  test("navigation works on tablet", async ({ page }) => {
+  test("hero heading is visible on tablet", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("navigation")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 });
 
@@ -69,10 +65,9 @@ test.describe("Responsive - Desktop", () => {
     expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 5);
   });
 
-  test("all navigation items visible on desktop", async ({ page }) => {
+  test("desktop navigation is visible", async ({ page }) => {
     await page.goto("/");
     const nav = page.getByRole("navigation");
-    await expect(nav.getByText("Home", { exact: true }).first()).toBeVisible();
-    await expect(nav.getByText("Contact", { exact: true }).first()).toBeVisible();
+    await expect(nav).toBeVisible();
   });
 });

@@ -2,10 +2,10 @@ import { Profile, Metric, NavLink, SocialLink } from "@/types";
 
 export const profile: Profile = {
   name: "Rohit Yadav",
-  title: "Quality Assurance Engineer",
+  title: "QA Engineer",
   tagline: "Building, testing, and improving reliable digital experiences",
   summary:
-    "Detail-oriented QA Engineer with expertise spanning manual testing, API validation, automation engineering, and quality assurance across web and mobile platforms. Background in SAP S/4HANA Development and Java programming. Proficient in identifying critical defects, designing comprehensive test strategies, and building automation frameworks that ensure reliable software delivery.",
+    "QA Engineer with expertise spanning manual testing, API validation, automation engineering, and quality assurance across web and mobile platforms. Background in SAP S/4HANA Development and Java programming. Proficient in identifying critical defects, designing comprehensive test strategies, and building automation frameworks that ensure reliable software delivery.",
   email: "yadavrohit0660@gmail.com",
   phone: "+91 9875607977",
   linkedin: "https://www.linkedin.com/in/rohit-yadav-6560a117/",
