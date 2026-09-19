@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     "Software Testing",
     "Automation Engineer",
     "Java",
-    "Selenium",
+    "Playwright",
     "Playwright",
     "SAP S/4HANA",
     "Howrah",

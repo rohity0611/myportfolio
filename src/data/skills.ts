@@ -21,7 +21,7 @@ export const skillCategories: SkillCategory[] = [
     title: "Automation",
     icon: "code",
     skills: [
-      { name: "Selenium", level: "intermediate" },
+      { name: "Playwright", level: "intermediate" },
       { name: "TestNG", level: "beginner" },
       { name: "Maven", level: "beginner" },
       { name: "Java", level: "intermediate" },

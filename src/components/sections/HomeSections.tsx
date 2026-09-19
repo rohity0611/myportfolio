@@ -29,7 +29,7 @@ const capabilities = [
   },
   {
     label: "Automation",
-    desc: "Selenium, Java, TestNG, Maven",
+    desc: "Playwright, Java, TestNG, Maven",
     icon: (
       <svg
         className="w-5 h-5"
@@ -116,7 +116,7 @@ const pipeline = [
 
 const techIcons = [
   { name: "Java", abbr: "J" },
-  { name: "Selenium", abbr: "Se" },
+  { name: "Playwright", abbr: "Pw" },
   { name: "TestNG", abbr: "T" },
   { name: "Maven", abbr: "M" },
   { name: "Postman", abbr: "P" },
