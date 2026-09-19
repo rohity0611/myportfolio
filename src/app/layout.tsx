@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     "West Bengal",
   ],
   authors: [{ name: "Rohit Yadav" }],
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
