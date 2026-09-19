@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientProviders from "@/components/layout/ClientProviders";
@@ -81,6 +82,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <ClientProviders>{children}</ClientProviders>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YQ44MMRL0X"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YQ44MMRL0X');
+          `}
+        </Script>
       </body>
     </html>
   );
