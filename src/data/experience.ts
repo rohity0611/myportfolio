@@ -38,15 +38,26 @@ export const experiences: Experience[] = [
     summary:
       "Quality assurance for Next.js, Node.js, and WordPress projects. Focused on bug finding, report generation, and ensuring reliable digital experiences across multiple platforms.",
     responsibilities: [
-      "Bug identification and tracking in Jira/ClickUp",
+      "Bug identification and tracking in Jira and ClickUp",
       "Test case creation and execution for web applications",
       "API testing and validation for Next.js API routes",
       "WordPress plugin and theme quality validation",
       "Generating weekly QA reports with defect metrics",
       "Collaborating with development teams on bug fixes",
       "Test environment setup and maintenance",
+      "Using Figma for design validation and UI testing",
     ],
-    technologies: ["Next.js", "Node.js", "WordPress", "Playwright", "TestNG", "Maven"],
+    technologies: [
+      "Next.js",
+      "Node.js",
+      "WordPress",
+      "Playwright",
+      "TestNG",
+      "Maven",
+      "Jira",
+      "ClickUp",
+      "Figma",
+    ],
     achievements: [
       "Improved bug detection coverage across web and WordPress projects",
       "Reduced report generation time by streamlining test processes",
