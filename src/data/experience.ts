@@ -30,4 +30,27 @@ export const experiences: Experience[] = [
       "Developed automated reporting templates improving team efficiency",
     ],
   },
+  {
+    company: "SCube.co",
+    role: "QA Engineer",
+    duration: "Nov 2025 — Present",
+    location: "Howrah, West Bengal",
+    summary:
+      "Quality assurance for Next.js, Node.js, and WordPress projects. Focused on bug finding, report generation, and ensuring reliable digital experiences across multiple platforms.",
+    responsibilities: [
+      "Bug identification and tracking in Jira/ClickUp",
+      "Test case creation and execution for web applications",
+      "API testing and validation for Next.js API routes",
+      "WordPress plugin and theme quality validation",
+      "Generating weekly QA reports with defect metrics",
+      "Collaborating with development teams on bug fixes",
+      "Test environment setup and maintenance",
+    ],
+    technologies: ["Next.js", "Node.js", "WordPress", "Playwright", "TestNG", "Maven"],
+    achievements: [
+      "Improved bug detection coverage across web and WordPress projects",
+      "Reduced report generation time by streamlining test processes",
+      "Validated 15+ WordPress plugins and themes for quality assurance",
+    ],
+  },
 ];
