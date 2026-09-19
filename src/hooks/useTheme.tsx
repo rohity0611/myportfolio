@@ -39,6 +39,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.classList.toggle("light", theme === "light");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
 
     const mq = window.matchMedia("(prefers-color-scheme: light)");

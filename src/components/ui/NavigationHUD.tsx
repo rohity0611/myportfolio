@@ -44,9 +44,12 @@ export default function NavigationHUD() {
     };
   }, [isOpen]);
 
+  // Close mobile menu on route change
   useEffect(() => {
-    close();
-  }, [pathname, close]);
+    // Use requestAnimationFrame to defer state update
+    const id = requestAnimationFrame(() => setIsOpen(false));
+    return () => cancelAnimationFrame(id);
+  }, [pathname]);
 
   const navigate = (href: string) => {
     router.push(href);

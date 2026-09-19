@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useCursor } from "@/hooks/useCursorContext";
 import { projects } from "@/data/projects";
-import { skillCategories, learningPath } from "@/data/skills";
+import { learningPath } from "@/data/skills";
 
 const capabilities = [
   {
