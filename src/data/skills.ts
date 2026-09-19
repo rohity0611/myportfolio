@@ -52,6 +52,9 @@ export const skillCategories: SkillCategory[] = [
     icon: "wrench",
     skills: [
       { name: "Jira", level: "intermediate" },
+      { name: "ClickUp", level: "intermediate" },
+      { name: "IntelliJ", level: "advanced" },
+      { name: "Eclipse", level: "beginner" },
       { name: "Git", level: "intermediate" },
       { name: "GitHub", level: "intermediate" },
       { name: "Figma", level: "beginner" },

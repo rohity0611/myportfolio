@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,20 +20,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPass = process.env.GMAIL_APP_PASSWORD;
+
+    if (!gmailUser || !gmailPass) {
       return NextResponse.json(
         { success: false, message: "Email service not configured" },
         { status: 503 },
       );
     }
 
-    const { Resend } = await import("resend");
-    const resend = new Resend(apiKey);
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailPass,
+      },
+    });
 
-    const { error } = await resend.emails.send({
-      from: "RY/OS Portfolio <onboarding@resend.dev>",
-      to: "yadavrohit0660@gmail.com",
+    await transporter.sendMail({
+      from: `"RY/OS Portfolio" <${gmailUser}>`,
+      to: gmailUser,
       replyTo: email,
       subject: `[RY/OS] ${subject}`,
       html: `
@@ -52,13 +60,6 @@ export async function POST(request: NextRequest) {
         </div>
       `,
     });
-
-    if (error) {
-      return NextResponse.json(
-        { success: false, message: "Failed to send message" },
-        { status: 500 },
-      );
-    }
 
     return NextResponse.json({
       success: true,
